@@ -14,16 +14,6 @@ public class AdmobManager : MonoBehaviour
         ToggleBannerAd(true);
     }
 
-    public void OnGUI()
-    {
-        GUI.skin.label.fontSize = 60;
-        Rect textOutputRect = new Rect(
-          0.2f * Screen.width,
-          0.83f * Screen.height,
-          0.8f * Screen.width,
-          1.0f * Screen.height);
-    }
-
     void Update() { }
 
     AdRequest GetAdRequest()

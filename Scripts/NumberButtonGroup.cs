@@ -23,13 +23,13 @@ public class NumberButtonGroup : MonoBehaviour
 
         if (stage_level >= 5)
         {
-            transform.GetComponent<GridLayoutGroup>().cellSize = new Vector2(70,70);
+            transform.GetComponent<GridLayoutGroup>().cellSize = new Vector2(70, 70);
             transform.GetComponent<GridLayoutGroup>().constraintCount = 3;
         }
 
 
         NumberButton_object = new GameObject[level];
-        for(int i = 0; i < level; i++)
+        for (int i = 0; i < level; i++)
         {
             NumberButton_object[i] = Instantiate(NumberButton_prefab) as GameObject;
             NumberButton_object[i].transform.SetParent(transform, false);
@@ -39,7 +39,7 @@ public class NumberButtonGroup : MonoBehaviour
     public bool ToggleMode()
     {
         notemode = notemode ? false : true;
-        for(int i =0; i < level; i++)
+        for (int i = 0; i < level; i++)
         {
             NumberButton_object[i].GetComponent<NumberButton>().ChangeModeButton(notemode);
         }
@@ -78,9 +78,9 @@ public class NumberButtonGroup : MonoBehaviour
     {
         if (!notemode)
         {
-            for (int i = 0; i < level; i++)
+            if (not_note_value > 0)
             {
-                NumberButton_object[i].GetComponent<NumberButton>().SetInitColor();
+                NumberButton_object[not_note_value - 1].GetComponent<NumberButton>().ChangeToggleColor();
             }
             not_note_value = value;
         }

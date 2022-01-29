@@ -26,8 +26,8 @@ public class Cell : MonoBehaviour
         idx_x = pos_x;
         idx_y = pos_y;
 
-        in_note = new bool[(stage_level * stage_level)+1];
-        for(int i = 1; i < in_note.Length; i++)
+        in_note = new bool[(stage_level * stage_level) + 1];
+        for (int i = 1; i < in_note.Length; i++)
         {
             in_note[i] = false;
         }
@@ -65,6 +65,11 @@ public class Cell : MonoBehaviour
         Value.color = Color.black;
         value_by_user = v;
     }
+    public void SetValueInit()
+    {
+        Value.text = "";
+        value_by_user = 0;
+    }
 
     public void SetToggleNote(int v)
     {
@@ -73,7 +78,7 @@ public class Cell : MonoBehaviour
         Note_object.text = "";
         for (int i = 1; i < in_note.Length; i++)
         {
-            if (in_note[i]) Note_object.text = Note_object.text + (i).ToString() +" ";
+            if (in_note[i]) Note_object.text = Note_object.text + (i).ToString() + " ";
         }
     }
 

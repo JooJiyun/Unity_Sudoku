@@ -22,7 +22,7 @@ public class NumberButton : MonoBehaviour
     public void ChangeToggleColor()
     {
         checked_flg = checked_flg ? false : true;
-        if (checked_flg) 
+        if (checked_flg)
         {
             transform.GetComponent<Image>().color = Color.cyan;
         }
@@ -37,7 +37,7 @@ public class NumberButton : MonoBehaviour
         if (notemode)
         {
             ColorUtility.TryParseHtmlString("#9088FF", out Color color);
-            transform.GetComponent<Outline>().effectColor =  color;
+            transform.GetComponent<Outline>().effectColor = color;
             Value_text.color = Color.gray;
         }
         else

@@ -10,7 +10,7 @@ public class CellsContent : MonoBehaviour
     private readonly float _ZOOM_IN_MAX = 3.5f;
     private readonly float _ZOOM_OUT_MAX = 0.95f;
     private readonly float _ZOOM_SPEED = 1.5f;
-    
+
     private bool _isZooming = false;
 
     public GameObject Cell_prefab;
@@ -100,17 +100,17 @@ public class CellsContent : MonoBehaviour
     {
         MakeCells();
         SetInitCellValue();
-        
-        for(int i = 0; i < 30; i++)
+
+        for (int i = 0; i < 30; i++)
         {
-            while(!MixSudokuCol());
-            while(!MixSudokuRow());
+            while (!MixSudokuCol()) ;
+            while (!MixSudokuRow()) ;
         }
-        
+
         MixNum();
-        for(int i = 0; i < level; i++)
+        for (int i = 0; i < level; i++)
         {
-            for(int j = 0; j < level; j++)
+            for (int j = 0; j < level; j++)
             {
                 cell_value_by_computer[i, j]++;
             }
@@ -137,9 +137,9 @@ public class CellsContent : MonoBehaviour
         // make bold(dark) line
         int st = 0;
         int end = stage_level - 1;
-        for(int i = 0; i < stage_level; i++)
-        { 
-            for(int j = 0; j < level; j++)
+        for (int i = 0; i < stage_level; i++)
+        {
+            for (int j = 0; j < level; j++)
             {
                 cell_object[st, j].GetComponent<Cell>().ShowTopBar();
                 cell_object[end, j].GetComponent<Cell>().ShowBottomBar();
@@ -173,7 +173,7 @@ public class CellsContent : MonoBehaviour
         int mixrow1 = rand1 * stage_level + rand2;
         int mixrow2 = rand1 * stage_level + rand3;
 
-        for(int i = 0; i < level; i++)
+        for (int i = 0; i < level; i++)
         {
             int tmp = cell_value_by_computer[mixrow1, i];
             cell_value_by_computer[mixrow1, i] = cell_value_by_computer[mixrow2, i];
@@ -193,7 +193,7 @@ public class CellsContent : MonoBehaviour
 
         for (int i = 0; i < level; i++)
         {
-            int tmp = cell_value_by_computer[i,mixrow1];
+            int tmp = cell_value_by_computer[i, mixrow1];
             cell_value_by_computer[i, mixrow1] = cell_value_by_computer[i, mixrow2];
             cell_value_by_computer[i, mixrow2] = tmp;
         }
@@ -202,11 +202,11 @@ public class CellsContent : MonoBehaviour
     private void MixNum()
     {
         int[] num = new int[level];
-        for(int i = 0; i < level; i++)
+        for (int i = 0; i < level; i++)
         {
             num[i] = i;
         }
-        for(int i = 0; i < level; i++)
+        for (int i = 0; i < level; i++)
         {
             int tmp = num[i];
             int rand = Random.Range(0, level);
@@ -214,9 +214,9 @@ public class CellsContent : MonoBehaviour
             num[rand] = tmp;
         }
 
-        for(int i = 0; i < level; i++)
+        for (int i = 0; i < level; i++)
         {
-            for(int j = 0; j < level; j++)
+            for (int j = 0; j < level; j++)
             {
                 cell_value_by_computer[i, j] = num[cell_value_by_computer[i, j]];
             }
@@ -238,7 +238,7 @@ public class CellsContent : MonoBehaviour
             cell_idx_rand[i] = cell_idx_rand[rand];
             cell_idx_rand[rand] = tmp;
         }
-        
+
         for (int i = 0; i < hint_cnt; i++)
         {
             int row = cell_idx_rand[i] / level;
@@ -271,7 +271,14 @@ public class CellsContent : MonoBehaviour
         }
         else
         {
-            cell_object[Clicked_Cell_x, Clicked_Cell_y].GetComponent<Cell>().SetValueByPlayer(val);
+            if (cell_object[Clicked_Cell_x, Clicked_Cell_y].GetComponent<Cell>().GetValue() == val)
+            {
+                cell_object[Clicked_Cell_x, Clicked_Cell_y].GetComponent<Cell>().SetValueInit();
+            }
+            else
+            {
+                cell_object[Clicked_Cell_x, Clicked_Cell_y].GetComponent<Cell>().SetValueByPlayer(val);
+            }
         }
 
         if (!notemode)
@@ -282,7 +289,7 @@ public class CellsContent : MonoBehaviour
 
             ShowHintRow(Clicked_Cell_x);
             ShowHintCol(Clicked_Cell_y);
-            ShowHintSection((int)(Clicked_Cell_x / stage_level),(int)(Clicked_Cell_y / stage_level));
+            ShowHintSection((int)(Clicked_Cell_x / stage_level), (int)(Clicked_Cell_y / stage_level));
 
             CheckCompleteGame();
         }
@@ -291,12 +298,12 @@ public class CellsContent : MonoBehaviour
     #region Show Hint
     private void ShowHintRow(int row)
     {
-        int[] value_cnt = new int[level+1];
-        for(int i = 1; i <= level; i++)
+        int[] value_cnt = new int[level + 1];
+        for (int i = 1; i <= level; i++)
         {
             value_cnt[i] = 0;
         }
-        for(int i = 0; i < level; i++)
+        for (int i = 0; i < level; i++)
         {
             int v = cell_object[row, i].GetComponent<Cell>().GetValue();
             if (v == -1)
@@ -308,7 +315,7 @@ public class CellsContent : MonoBehaviour
                 value_cnt[v]++;
             }
         }
-        for(int i= 0; i < level; i++)
+        for (int i = 0; i < level; i++)
         {
             int v = cell_object[row, i].GetComponent<Cell>().GetValue();
             if (v > 0)
@@ -334,7 +341,7 @@ public class CellsContent : MonoBehaviour
             {
                 value_cnt[cell_value_by_computer[i, col]]++;
             }
-            else if(v > 0)
+            else if (v > 0)
             {
                 value_cnt[v]++;
             }
@@ -359,9 +366,9 @@ public class CellsContent : MonoBehaviour
             check_flg[i] = 0;
         }
 
-        for(int i = 0; i < stage_level; i++)
+        for (int i = 0; i < stage_level; i++)
         {
-            for(int j = 0; j < stage_level; j++)
+            for (int j = 0; j < stage_level; j++)
             {
                 int row = i + (row_main * stage_level);
                 int col = j + (col_main * stage_level);
@@ -377,9 +384,9 @@ public class CellsContent : MonoBehaviour
                 }
             }
         }
-        for(int i = 0; i < stage_level; i++)
+        for (int i = 0; i < stage_level; i++)
         {
-            for(int j = 0; j < stage_level; j++)
+            for (int j = 0; j < stage_level; j++)
             {
                 int row = i + (row_main * stage_level);
                 int col = j + (col_main * stage_level);
@@ -400,7 +407,7 @@ public class CellsContent : MonoBehaviour
     #region Blind Hint
     private void BlindHintRow(int row)
     {
-        for(int i = 0; i < level; i++)
+        for (int i = 0; i < level; i++)
         {
             cell_object[row, i].GetComponent<Cell>().BlindWrong();
         }
@@ -414,9 +421,9 @@ public class CellsContent : MonoBehaviour
     }
     private void BlindHintSection(int row_main, int col_main)
     {
-        for(int i = 0; i < stage_level; i++)
+        for (int i = 0; i < stage_level; i++)
         {
-            for(int j = 0; j < stage_level; j++)
+            for (int j = 0; j < stage_level; j++)
             {
                 int row = i + (row_main * stage_level);
                 int col = j + (col_main * stage_level);
@@ -428,14 +435,14 @@ public class CellsContent : MonoBehaviour
     public void TurnOnAssistant()
     {
         AssistantMode = true;
-        for(int i = 0; i < level; i++)
+        for (int i = 0; i < level; i++)
         {
             ShowHintCol(i);
             ShowHintRow(i);
         }
-        for(int i = 0; i < stage_level; i++)
+        for (int i = 0; i < stage_level; i++)
         {
-            for(int j = 0; j < stage_level; j++)
+            for (int j = 0; j < stage_level; j++)
             {
                 ShowHintSection(i, j);
             }
@@ -466,9 +473,9 @@ public class CellsContent : MonoBehaviour
     }
     private void CheckCompleteGame()
     {
-        for(int i = 0; i < level; i++)
+        for (int i = 0; i < level; i++)
         {
-            for(int j = 0; j < level; j++)
+            for (int j = 0; j < level; j++)
             {
                 if (!cell_object[i, j].GetComponent<Cell>().correct_value) return;
             }
